@@ -107,6 +107,54 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
         return songs;
     }
+    public ArrayList<Song> filterSongs(String filterWord){
+        ArrayList<Song> Song = new ArrayList<Song>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] columns = {COLUMN_ID,COLUMN_TITLE,COLUMN_SINGERS,COLUMN_YEAR,COLUMN_STARS};
+        String filter = COLUMN_STARS + " Like ?";
+        String[] args = {"%" + filterWord + "%"};
+        Cursor cursor = db.query(TABLE_SONG,columns, filter,args,null,null,null,null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int _id = cursor.getInt(0);
+                String title = cursor.getString(1);
+                String singers = cursor.getString(2);
+                int year = cursor.getInt(3);
+                int stars = cursor.getInt(4);
+                Song obj = new Song(_id,title,singers,year,stars);
+                Song.add(obj);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return Song;
+    }
+    //UPDATE SONG
+    public void updateSong(Song title, Song singers, Song year, Song star){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues value = new ContentValues();
+        value.put(COLUMN_TITLE,title.getTitle());
+        value.put(COLUMN_SINGERS,singers.getSingers());
+        value.put(COLUMN_YEAR,year.getYear());
+        value.put(COLUMN_STARS,star.getStars());
+        String conditions = COLUMN_ID + "= ?";
+        String[] args = {String.valueOf(title.getId())};
+        db.update(TABLE_SONG,value,conditions,args);
+        db.close();
+
+    }
+    public int deleteSong(int id){
+            SQLiteDatabase db = this.getWritableDatabase();
+            String condition = COLUMN_ID + "= ?";
+            String[] args = {String.valueOf(id)};
+            int result = db.delete(TABLE_SONG, condition, args);
+            db.close();
+            return result;
+        }
+
+
+
 
 
 

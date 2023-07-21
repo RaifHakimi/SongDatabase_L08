@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         btnList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), songLV.class);
+                Intent i = new Intent(MainActivity.this, songLV.class);
                 startActivity(i);
                 DBHelper db = new DBHelper(MainActivity.this);
                 db.close();

@@ -2,7 +2,9 @@ package sg.edu.rp.c346.id22016635.song_l08;
 
 import androidx.annotation.NonNull;
 
-public class Song {
+import java.io.Serializable;
+
+public class Song implements Serializable {
     private int _id;
     private String title;
     private String singers;
@@ -35,10 +37,37 @@ public class Song {
         return stars;
     }
 
+    public int getId(){return _id;}
+
+    public void setTitle(String title){
+        this.title = title;
+    }
+    public void setSingers(String singers){
+        this.singers = singers;
+    }
+    public void setYear(int year){
+        this.year = year;
+    }
+    public void setStars(int stars){
+        this.stars = stars;
+    }
     @NonNull
     @Override
     public String toString(){
-        return _id + "\n" +singers + "\n" + title + "\n" + year + "\n" + stars;
+        String output = "";
+        if(stars == 1){
+            output = "  *";
+        } else if (stars == 2) {
+            output = "  * *";
+        } else if (stars == 3) {
+            output = "  * * *";
+        }else if (stars == 4){
+            output = "  * * * *";
+        }else if(stars == 5){
+            output = "  * * * * *";
+        }
+
+        return output;
     }
 
 }
